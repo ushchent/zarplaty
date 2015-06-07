@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Мониторинг заработных плат в Беларуси</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="css/d3.slider.css">
+<!-- Yandex.Metrika counter -->
+<!--
+        <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter30644627 = new Ya.Metrika({id:30644627,
+                            clickmap:true,
+                            accurateTrackBounce:true});
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript><div><img src="//mc.yandex.ru/watch/30644627" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+-->
+<!-- /Yandex.Metrika counter -->
+    </head>
+<body>
+    <div id="logo">
+        <a href="/"><img src="img/logo.jpg" /></a>
+    </div>
+    <article>
+    <h1>Мониторинг заработных плат в Беларуси</h1>
+    <div class="text">
+    <p>Статистика номинальной начисленной зарплаты в Беларуси в региональном разрезе и в помесячной динамике.</p>
+    <p>Приложение экспериментальное, работает на официальных данных Белстата и показывает размер зарплаты в районах и городах областного подчинения, а также в Минске.</p>
+    </div>
+    <div id="grafik"></div>
+    <div id="grafik2"></div>
+    <div id="slider"></div>
+    <div id="scale"></div>
+    <div id="map"></div>
+    </article>
+    <footer>
+      <script src="js/d3.v3.min.js"></script>
+      <script src="js/d3.slider.js"></script>
+      <script src="js/script.js"></script>
+    </footer>
+</body>
+</html>
