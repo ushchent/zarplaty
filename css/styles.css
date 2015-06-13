@@ -1,5 +1,29 @@
-.y.axis, .x.axis text {
+/* http://www.w3schools.com/css/css_table.asp */
+
+table, th, td {
+  border: 1px solid black;
+}
+
+thead {
+  font-weight: bold;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+    text-align: left;
+    padding: 5px;
+}
+
+#map .y.axis, .x.axis text {
 	font-size: 10px;
+}
+
+#svodka .y.axis, .x.axis text {
+	font-size: 12px;
 }
 
 .zp {
@@ -15,6 +39,7 @@ body {
 
 article, footer {
     margin-left: 1em;
+    max-width: 800px
 }
 
 
@@ -55,4 +80,30 @@ article, footer {
 .text {
   width: 800px;
   margin-bottom: 3em;
+}
+
+#tooltip {
+  position: absolute;
+  width: 150px;
+  height: auto;
+  padding: 5px;
+  background-color: white;
+  pointer-events: none;
+  border: 1px solid black;
+}
+#tooltip.hidden {
+  display: none;
+}
+#tooltip p {
+  margin: 0;
+  font-size: 10px;
+  
+}
+
+#table {
+  margin-bottom: 3em;
+  
+}
+#impressum {
+  margin-top: 2em;
 }

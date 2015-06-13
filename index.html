@@ -1,12 +1,11 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Мониторинг заработных плат в Беларуси</title>
+        <title>Зарплаты Беларуси</title>
         <meta charset="utf-8">
         <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/d3.slider.css">
 <!-- Yandex.Metrika counter -->
-<!--
         <script type="text/javascript">
         (function (d, w, c) {
             (w[c] = w[c] || []).push(function() {
@@ -30,7 +29,7 @@
         })(document, window, "yandex_metrika_callbacks");
         </script>
         <noscript><div><img src="//mc.yandex.ru/watch/30644627" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
--->
+
 <!-- /Yandex.Metrika counter -->
     </head>
 <body>
@@ -40,19 +39,48 @@
     <article>
     <h1>Мониторинг заработных плат в Беларуси</h1>
     <div class="text">
-    <p>Статистика номинальной начисленной зарплаты в Беларуси в региональном разрезе и в помесячной динамике.</p>
-    <p>Приложение экспериментальное, работает на официальных данных Белстата и показывает размер зарплаты в районах и городах областного подчинения, а также в Минске.</p>
+    <p>Информационное приложение "Зарплаты Беларуси" показывает статистику номинальной начисленной среднемесячной заработной платы в Республике Беларусь и позволяет быстро оценить ситуацию с доходами населения, а также провести элементарный анализ данных о зарплате в региональном разрезе и в помесячной динамике.</p>
+    
+    <p>График с обзорными данными дает общее представление о средней зарплате по всей стране, по отдельным регионам, а также дополнительно показывает минимальное и максимальное значение средней зарплаты в соотв. месяце (поэтому возможны повторы).</p>
+    <p>Под графиком находится красный бегунок, потянув за который можно задать другой месяц. Все данные указаны в тысячах белорусских рублей: </p>
     </div>
-    <div id="grafik"></div>
-    <div id="grafik2"></div>
+    <div id="tooltip" class="hidden"><p id="rajon"></p><p id="amount"></p></div>
+    <div id="svodka"></div>
     <div id="slider"></div>
     <div id="scale"></div>
     <div id="map"></div>
+    <h2>10 самых денежных видов деятельности в <span id="tablemonth"></span> 2015 г.</h2>
+    <div id="table"></div>
+        <div class="text"><p><img src="img/csv.png"> Загрузить данные для подробного анализа: <a href="data/data.csv">data/data.csv</a>.</p></div>
+
+<div id= "impressum" class="text">
+      <p>Приложение создано в рамках проекта dataШкола сообщества "<a href="http://opendata.by">Открытые данные для Беларуси</a>", работает на основе официальных данных Национального статистического комитета Республики Беларусь и обновляется ежемесячно по мере публикации новых данных.</p>
+      
+        <ul>
+          <li>Источник данных: <a href="http://belstat.gov.by/ofitsialnaya-statistika/otrasli-statistiki/naselenie/trud/">belstat.gov.by/ofitsialnaya-statistika/otrasli-statistiki/naselenie/trud/</a></li>
+          <li>Другие проекты сообщества "Открытые данные для Беларуси": <a href="http://opendata.by/projects/">opendata.by/projects</a></li>
+          <li>Контакты сообщества для желающих присоединиться: <a href="http://opendata.by/about/">opendata.by/about</a></li>
+          </ul>
+          <p>Редактор приложения Алексей Медвецкий, am@opendata.by.</p>
+    </div>
     </article>
     <footer>
       <script src="js/d3.v3.min.js"></script>
       <script src="js/d3.slider.js"></script>
       <script src="js/script.js"></script>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = 'zarplaty-opendata-by';
+    
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
     </footer>
 </body>
 </html>
