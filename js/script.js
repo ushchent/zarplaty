@@ -14,7 +14,7 @@ var formatter = d3.format(",.1f"),
     formatter2 = d3.format(",.f");
 
 var calenderScale = d3.scale.ordinal()
-                      .domain(["Январь", "Февраль", "Март", "Апрель"])
+                      .domain(["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"])
                       .rangePoints([30, width - 30]);
             
 var months = d3.scale.ordinal()
@@ -35,7 +35,7 @@ function appendMonth(d) {
 appendMonth(month);
 
 var sliderAxis = d3.svg.axis().scale(calenderScale).orient("bottom")
-                    .ticks(3);
+                    .ticks(calenderScale.domain().length);
 
 d3.select("#scale").append("svg")
       .attr({width: width, height: height / 6})
@@ -64,15 +64,17 @@ function convertTitleCase(title) {
 
 setTableMonth(month);
 
-var slider = d3.slider().min(0).max(width).step(width / 3);
+var xScale;
+
+var slider = d3.slider().min(0).max(width).step(width / (calenderScale.domain().length - 1));
 d3.select("#slider").call(slider.value(width));
 
 d3.json("data/rajony.geojson", function(karta) {
-  d3.csv("data/data.csv", function(data) {
+  d3.csv("data/regiony.csv", function(data) {
     d3.csv("data/goroda.csv", function(goroda) {
     
     
-    d3.csv("data/groups.csv", function(groups) {
+    d3.csv("data/vidy.csv", function(groups) {
 
     // Таблица
         groups = groups;
@@ -82,12 +84,18 @@ d3.json("data/rajony.geojson", function(karta) {
         
         
         var table = d3.select("#table");
-        var thead = table.append("thead").style("background-color", 'rgb(254,204,92)').style("color", "black");
+        var thead = table.append("thead")
+			.style("background-color", 'rgb(254,204,92)')
+			.style("color", "black");
         tbody = table.append("tbody");
         
-        thead.append("tr").selectAll("th").data(["Вид", "Зарплата, руб."]).enter().append("td").text(function(d) { return d; });
+        thead.append("tr").selectAll("th")
+	    .data(["Вид", "Зарплата, руб."])
+	    .enter().append("td")
+	    .text(function(d) { return d; });
         
-        tr = tbody.selectAll("tr").data(tableSelected)
+        tr = tbody.selectAll("tr")
+		.data(tableSelected)
     
         tr.enter().append("tr").style('background-color', function (d, i) { return i%2 ? 'white' : 'rgb(255,255,178)'; });;
 
@@ -97,7 +105,7 @@ d3.json("data/rajony.geojson", function(karta) {
 
 
 	var selection = data.filter(selectData).sort(function(a, b) {
-	return d3.ascending(a.amount, b.amount)});
+	return d3.ascending(parseInt(a.amount), parseInt(b.amount))});
 	selected = selection;
    
     var svodka = d3.select("#svodka").append("svg").attr({width: width, height: 340});
@@ -109,15 +117,17 @@ d3.json("data/rajony.geojson", function(karta) {
     min.min = "min";
     svodkaSelection.push(min, max);
     
-    
     svodkaSelection.sort(function(a, b) {
-    return d3.ascending(a.amount, b.amount)});;
+    return d3.ascending(parseInt(a.amount), parseInt(b.amount))});;
     
     var yScale = d3.scale.ordinal()
     .domain(d3.range(svodkaSelection.length))
         .rangeRoundBands([height / 2, 0], .2);
-		var xScale = d3.scale.linear().domain([0,
-                      d3.max(svodkaSelection, function(d) { return d.amount; })]).range([0, width / 2]);
+        
+	xScale = d3.scale.linear()
+				.domain([0,
+                      d3.max(svodkaSelection, function(d) { return d.amount; })])
+                      .range([0, 400]);
     
     var xAxis = d3.svg.axis().scale(xScale).orient("bottom");
     var yAxis = d3.svg.axis().scale(yScale).orient("left")
@@ -156,12 +166,10 @@ d3.json("data/rajony.geojson", function(karta) {
     svodka.append("g").attr("class", "y axis").attr("transform", "translate(180, 0)").call(yAxis);
     svodka.append("g").attr("class", "x axis").attr("transform", "translate(180, 300)").call(xAxis); 
     
-    svodka.append("g").attr("class", "minMax axis").attr("transform", "translate(650, 0)").call(minMaxAxis); 
-    
-/////////////////////////
+    svodka.append("g").attr("class", "minMax axis").attr("transform", "translate(670, 0)").call(minMaxAxis); 
 
-    color.domain([d3.min(selection, function(d) { return d.amount }),
-                  d3.max(selection, function(d) { return d.amount })]);
+    color.domain([d3.min(selection, function(d) { return parseInt(d.amount) }),
+                  d3.max(selection, function(d) { return parseInt(d.amount) })]);
     
     for (var i = 0; i < selection.length; i++ ) {
       for (var j = 0; j < karta.features.length; j++) {
@@ -179,7 +187,7 @@ d3.json("data/rajony.geojson", function(karta) {
       .append("path")
       .attr("d", path)
       .attr("fill", function(d) { if (d.properties.amount) {
-                                    return color(d.properties.amount);
+                                    return color(parseInt(d.properties.amount));
                                   } else {
                                     return "black"
                                     }
@@ -230,7 +238,7 @@ d3.json("data/rajony.geojson", function(karta) {
 
 	month = Math.round(value / stepper);
                 selection = data.filter(selectData).sort(function(a, b) { 
-        return d3.ascending(a.amount, b.amount)})
+        return d3.ascending(parseInt(a.amount), parseInt(b.amount))})
 
             svodkaSelection = selection.filter(selectSvodka)
             var min = selection[0], max = selection[selection.length - 1];
@@ -238,7 +246,7 @@ d3.json("data/rajony.geojson", function(karta) {
             min.min = "min";
             svodkaSelection.push(min, max);
             svodkaSelection.sort(function(a, b) {
-            return d3.ascending(a.amount, b.amount)});;
+            return d3.ascending(parseInt(a.amount), parseInt(b.amount))});;
             
             yScale.domain(d3.range(svodkaSelection.length));
             
@@ -263,8 +271,8 @@ d3.json("data/rajony.geojson", function(karta) {
             svodka.select(".y.axis").transition().duration(500).call(yAxis);
             svodka.select(".x.axis").transition().duration(500).call(xAxis); 
               
-            color.domain([d3.min(selection, function(d) { return d.amount }),
-                          d3.max(selection, function(d) { return d.amount })]);
+            color.domain([d3.min(selection, function(d) { return parseInt(d.amount) }),
+                          d3.max(selection, function(d) { return parseInt(d.amount) })]);
                 
                 for (var i = 0; i < selection.length; i++ ) {
                   for (var j = 0; j < karta.features.length; j++) {
@@ -280,7 +288,7 @@ d3.json("data/rajony.geojson", function(karta) {
                   .transition()
                   .duration(500)
                   .attr("fill", function(d) { if (d.properties.amount) {
-                                                return color(d.properties.amount);
+                                                return color(parseInt(d.properties.amount));
                                               } else {
                                                 return "black"
                                                 }
@@ -312,7 +320,7 @@ d3.json("data/rajony.geojson", function(karta) {
                               var colorCircle;
                                         for (var q = 0; q < selection.length; q++) {
                                           if (d.city == selection[q].rajon) {
-                                              colorCircle = color(selection[q].amount);
+                                              colorCircle = color(parseInt(selection[q].amount));
                                               d.amount = selection[q].amount;
                                             } else {
                                               continue;
@@ -412,14 +420,7 @@ d3.json("data/rajony.geojson", function(karta) {
                       d3.select("#tooltip")
                         .classed("hidden", true)
                       });
-              
-              
-
-    
-    
     });
 });
   });
 });
-
-
